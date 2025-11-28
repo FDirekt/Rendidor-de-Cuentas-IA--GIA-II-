@@ -64,9 +64,9 @@ OCR (n8n) → LLM extracción → DB staging
 - Generación de PDF del Formulario: plantilla estática + datos del trámite.
 
 ## Plan corto (antes del 12/12)
-- Semanas 1–2: armar esquema DB + seeds; endpoints básicos; wizard UI con carga de PDFs y resumen.
-- Semana 2: stub de pipeline OCR/LLM (endpoints que devuelven extracción simulada) + verificación de duplicados mock.
-- Semana 2–3: generación de formulario PDF y carga de “firmado”; flujo de envío por Director; logging/auditoría mínima.
+- Semana 1: armar esquema DB + seeds; endpoints básicos; wizard UI con carga de PDFs y resumen.
+- Semanas 1-2: stub de pipeline OCR/LLM (endpoints que devuelven extracción simulada) + verificación de duplicados mock.
+- Semana 2: generación de formulario PDF y carga de “firmado”; flujo de envío por Director; logging/auditoría mínima.
 - Demo: recorrido completo con datos de ejemplo y trazas de decisiones (qué detectó el LLM, qué se marcó como duplicado).
 
 ## Mejoras posteriores
@@ -104,12 +104,6 @@ Hoja de ruta inmediata (tickets):
 5. **Roles y auditoría**: agregar rol Operador/Director con rutas protegidas y registros mínimos (`user`, `acción`, `timestamp`).
 6. **Refactor estructural**: separar servicios vs. proveedores, centralizar tipos y documentar contratos para que n8n o el backend puedan reutilizar los mismos esquemas.
 
-Plan corto (antes del 12/12):
-- Semanas 1–2: armar esquema DB + seeds; endpoints básicos; wizard UI con carga de PDFs y resumen.
-- Semana 2: stub de pipeline OCR/LLM (endpoints que devuelven extracción simulada) + verificación de duplicados mock.
-- Semana 2–3: generación de formulario PDF y carga de “firmado”; flujo de envío por Director; logging/auditoría mínima.
-- Demo: recorrido completo con datos de ejemplo y trazas de decisiones (qué detectó el LLM, qué se marcó como duplicado).
-
 Refactorizaciones para n8n y orden del proyecto:
 - Separar rutas por responsabilidad: `/api/documents` (ingesta), `/api/ocr` (si se quiere exponer OCR), `/api/llm` (extracción/validación) para que n8n pueda orquestar pasos en nodos individuales.
 - Crear un servicio de “ingesta” reusable (ej. `src/services/ingest.ts`) que reciba archivos, calcule hash, llame OCR/LLM, y persista; las rutas sólo delegan.
@@ -119,11 +113,11 @@ Refactorizaciones para n8n y orden del proyecto:
 - Convertir plantillas HTML a componentes parametrizables y aislar la generación PDF en un servicio (`src/services/pdf.ts`) para que n8n pueda llamar a un endpoint único de “render”.
 - Si n8n orquesta pasos: usar `POST /api/ocr` → `POST /api/llm/extract` → deduplicado (hash) → `POST /api/llm/judge` → persistir vía `/api/documents` o servicio interno de ingesta. Para generar documentos base, `POST /api/templates/:tipo`.
 
-## Arranque rápido del mock (webapp Next.js)
+## Arranque rápido (webapp Next.js)
 Requisitos: Node 18+.
 ```
 cd webapp
-npm install    # ya ejecutado por create-next-app
+npm install
 npm run dev    # http://localhost:3000
 ```
 
