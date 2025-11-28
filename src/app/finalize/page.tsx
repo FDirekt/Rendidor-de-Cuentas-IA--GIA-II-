@@ -60,7 +60,7 @@ export default function FinalizePage() {
   const duplicates = docs.filter((d) => d.duplicateOfId);
 
   return (
-    <main className="min-h-screen px-6 py-10 text-[color:var(--foreground)]">
+    <main className="min-h-screen px-6 py-10 color:var(--foreground)">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
         <header className="theme-card rounded-2xl p-6">
           <p className="text-sm font-semibold text-sky-700">Finalizar caso</p>
@@ -101,7 +101,7 @@ export default function FinalizePage() {
             </button>
           </div>
 
-          {message && <p className="text-sm text-[color:var(--accent)]">{message}</p>}
+          {message && <p className="text-sm color:var(--accent)">{message}</p>}
 
           <div className="theme-card-muted rounded-xl border p-4">
             <p className="text-sm font-semibold theme-title">Duplicados (hash en otros casos)</p>

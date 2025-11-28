@@ -109,7 +109,7 @@ export function DocumentList({
               )}
               <div className="mt-2 flex flex-wrap gap-2">
                 <button
-                  className="rounded-full bg-[color:var(--accent)] px-3 py-1 text-xs font-semibold text-[color:var(--surface)] transition hover:brightness-110"
+                  className="rounded-full bg-(--accent) px-3 py-1 text-xs font-semibold text-(--surface) transition hover:brightness-110"
                   onClick={() => handleEditClick(doc)}
                 >
                   Editar y re-chequear

@@ -115,7 +115,24 @@ body {
   background: linear-gradient(135deg, #0f1c3b, #14243b 45%, #0e162a);
   border: 1px solid color-mix(in srgb, var(--border) 80%, #040b17);
   padding: 2px;
-  box-shadow: 0 25px 70px rgba(7, 11, 27, 0.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 25px 70px rgba(7, 11, 27, 0.55),
+    0 0 35px rgba(59, 130, 246, 0.35),
+    var(--shadow);
+}
+
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 2rem;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 65%);
+  opacity: 0.6;
+  pointer-events: none;
+  filter: blur(18px);
+  mix-blend-mode: screen;
 }
 
 .home-hero-content {

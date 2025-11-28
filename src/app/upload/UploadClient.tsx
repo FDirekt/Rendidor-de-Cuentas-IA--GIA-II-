@@ -121,7 +121,7 @@ export function UploadClient({ initialCaseId }: UploadClientProps) {
   );
 
   return (
-    <main className="min-h-screen px-4 py-4 text-[color:var(--foreground)]">
+    <main className="min-h-screen px-4 py-4 color:var(--foreground)">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <Header
           title="Subir Pagos, Devengados y Documentación Adicional"
@@ -131,6 +131,8 @@ export function UploadClient({ initialCaseId }: UploadClientProps) {
               : "Pipeline mock (OCR + LLM + deduplicado por hash + juez)"
           }
           homeHref={homeHref}
+          backHref={homeHref}
+          backLabel="Volver al caso"
         />
 
         <section className="space-y-4">

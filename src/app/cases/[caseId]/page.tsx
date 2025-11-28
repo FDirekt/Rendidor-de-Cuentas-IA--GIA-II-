@@ -46,7 +46,7 @@ export default async function CasePage({ params }: PageProps) {
   })();
 
   return (
-    <main className="min-h-screen px-4 py-4 text-[color:var(--foreground)]">
+    <main className="min-h-screen px-4 py-4 text-(--foreground)]">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <header className="theme-card rounded-3xl p-6">
           <div className="flex flex-wrap items-center justify-between gap-6">
@@ -57,34 +57,34 @@ export default async function CasePage({ params }: PageProps) {
                 {caseRecord.summary ?? "Caso sin descripción"}
               </p>
             </div>
-            <div className="flex flex-1 min-w-[240px] justify-center">
+            <div className="flex flex-1 min-w-60 justify-center">
               <div className="grid w-full max-w-lg grid-cols-3 gap-3">
-                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-(--border) bg-(--surface-muted) px-4 py-3">
                   <p className="text-xs uppercase theme-muted">Documentos</p>
                   <p className="text-2xl font-semibold theme-title">{documents.length}</p>
                 </div>
-                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-(--border) bg-(--surface-muted) px-4 py-3">
                   <p className="text-xs uppercase theme-muted">Duplicados internos</p>
                   <p className="text-2xl font-semibold theme-title">{duplicatesInCase}</p>
                 </div>
-                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-(--border) bg-(--surface-muted) px-4 py-3">
                   <p className="text-xs uppercase theme-muted">Duplicados otros casos</p>
                   <p className="text-2xl font-semibold theme-title">{duplicateMatches.length}</p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-shrink-0 flex-col items-end gap-2">
+            <div className="flex shrink-0 flex-col items-end gap-2">
               <Link
                 href="/"
-                className="rounded-full border border-[color:var(--border)] px-3 py-2 text-xs font-semibold theme-muted transition hover:border-[color:var(--accent)]"
+                className="rounded-full border border-(--border) px-3 py-2 text-xs font-semibold theme-muted transition hover:border-(--accent)"
               >
                 Volver a inicio
               </Link>
               <span
                 className={`rounded-full px-3 py-2 text-xs font-semibold ${
                   normalizedStatus === "TERMINADO"
-                    ? "bg-[color:var(--status-terminated-pill)] text-[color:var(--status-terminated-text)]"
-                    : "bg-[color:var(--status-active-pill)] text-[color:var(--status-active-text)]"
+                    ? "bg-(--status-terminated-pill)] text-(--status-terminated-text)]"
+                    : "bg-(--status-active-pill)] text-(--status-active-text)]"
                 }`}
               >
                 {normalizedStatus}

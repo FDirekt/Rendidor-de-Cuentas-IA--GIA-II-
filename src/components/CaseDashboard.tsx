@@ -145,7 +145,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
                 onClick={() => setTab(key)}
                 className={`flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition ${
                   tab === key
-                    ? "bg-[color:var(--foreground)] text-[color:var(--surface)] shadow-sm"
+                    ? "bg-(--foreground) text-(--surface) shadow-sm"
                     : "theme-chip hover:brightness-105"
                 }`}
               >
@@ -161,7 +161,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
             onClick={() => setTab(tab === "TODOS" ? "ACTIVO" : "TODOS")}
             className={`flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold transition ${
               tab === "TODOS"
-                ? "bg-[color:var(--foreground)] text-[color:var(--surface)] shadow-sm"
+                ? "bg-(--foreground) text-(--surface) shadow-sm"
                 : "theme-chip hover:brightness-105"
             }`}
           >
@@ -204,7 +204,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 text-xs theme-muted">
-                  <span className="theme-doc-chip rounded-full px-2 py-1 text-[11px] font-semibold text-[color:var(--muted-text)]">
+                  <span className="theme-doc-chip rounded-full px-2 py-1 text-[11px] font-semibold text-(--muted-text)">
                     {docsCount} docs
                   </span>
                   <span className="theme-chip rounded-full px-2 py-1">Última act. {formatDate(c.updatedAt)}</span>
@@ -254,7 +254,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
               <input
                 value={newCase.name}
                 onChange={(e) => setNewCase((c) => ({ ...c, name: e.target.value }))}
-                className="theme-input mt-1 w-full rounded-lg px-3 py-2 text-sm placeholder:text-[color:var(--muted-text)] focus:border-sky-400 focus:outline-none"
+                className="theme-input mt-1 w-full rounded-lg px-3 py-2 text-sm placeholder:text-(--muted-text) focus:border-sky-400 focus:outline-none"
                 placeholder="Ej: Rendición cultura"
               />
             </div>
@@ -263,7 +263,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
               <textarea
                 value={newCase.summary}
                 onChange={(e) => setNewCase((c) => ({ ...c, summary: e.target.value }))}
-                className="theme-input mt-1 w-full rounded-lg px-3 py-2 text-sm placeholder:text-[color:var(--muted-text)] focus:border-sky-400 focus:outline-none"
+                className="theme-input mt-1 w-full rounded-lg px-3 py-2 text-sm placeholder:text-(--muted-text) focus:border-sky-400 focus:outline-none"
                 rows={3}
                 placeholder="Notas rápidas del caso"
               />

@@ -35,19 +35,19 @@ export default async function Home() {
   return (
     <main className="min-h-screen py-2 text-foreground">
       <div className="mx-auto flex max-w-7xl flex-col gap-8">
-        <section className="home-hero rounded-3xl shadow-2xl shadow-slate-900/40">
-          <div className="home-hero-content flex flex-col gap-6 rounded-3xl p-6 lg:flex-row lg:items-start lg:justify-between">
+        <section className="rounded-3xl shadow-2xl">
+          <div className="flex gap-6 rounded-3xl p-6 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-5">
               <Image src="/logonobg.png" alt="Logo Grupo 2" width={160} height={160} priority />
               <div className="flex flex-col gap-1">
-                <p className="text-xs uppercase tracking-[0.1em] text-slate-100">Rendición de Cuentas</p>
+                <p className="text-xs uppercase tracking-widest text-slate-100">Rendición de Cuentas</p>
                 <h1 className="text-3xl font-semibold">Índice de Casos</h1>
                 <p className="text-sm text-slate-100/90">
                   Mock operativo con usuario estático. Seleccioná un caso, carga documentos y genera el acta final con el juez.
                 </p>
               </div>
             </div>
-            <div className="home-hero-stats flex flex-col gap-1 rounded-2xl px-6 py-4 text-sm">
+            <div className="flex flex-col gap-1 rounded-2xl px-6 py-1 text-sm">
               <p className="text-base font-semibold">Sofía Videla</p>
               <p>Casos activos: {activeCount}</p>
               <p>Terminados: {finishedCount}</p>

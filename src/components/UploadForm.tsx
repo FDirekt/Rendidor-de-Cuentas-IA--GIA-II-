@@ -86,7 +86,7 @@ export function UploadForm({ form, setForm, submitting, caseLocked }: UploadForm
               className="hidden"
               id="fileInput"
             />
-            <label htmlFor="fileInput" className="cursor-pointer font-semibold text-[color:var(--accent-strong)]">
+            <label htmlFor="fileInput" className="cursor-pointer font-semibold text-(--accent-strong)">
               Click o arrastra un PDF aquí
             </label>
             {form.file && (
