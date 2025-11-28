@@ -25,11 +25,11 @@ export function GeneratePdfButton() {
       <button
         onClick={handleClick}
         disabled={loading}
-        className="rounded-full bg-sky-700 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-sky-800 disabled:opacity-60"
+        className="theme-cta rounded-full px-4 py-2 text-xs font-semibold text-white shadow hover:brightness-110 disabled:opacity-60"
       >
         {loading ? "Generando..." : "Generar PDF (mock)"}
       </button>
-      {message && <span className="text-xs text-slate-600">{message}</span>}
+      {message && <span className="text-xs theme-muted">{message}</span>}
     </div>
   );
 }

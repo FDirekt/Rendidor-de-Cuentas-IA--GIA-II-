@@ -49,7 +49,7 @@ export function ManualFieldsSection({
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-full bg-gradient-to-r from-sky-700 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:from-sky-800 hover:to-blue-700 disabled:opacity-60"
+              className="theme-cta rounded-full px-4 py-2 text-sm font-semibold text-white shadow hover:brightness-110 disabled:opacity-60"
         >
           {submitting ? "Procesando..." : "Subir y procesar"}
         </button>

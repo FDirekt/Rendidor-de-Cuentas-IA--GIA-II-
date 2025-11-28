@@ -26,10 +26,36 @@ export type CasePreview = {
 type CaseStatusKey = "ACTIVO" | "TERMINADO";
 type StatusKey = CaseStatusKey | "TODOS";
 
-const statusStyles: Record<StatusKey, { label: string; dot: string; chipTone: string }> = {
-  ACTIVO: { label: "Activos", dot: "bg-emerald-500", chipTone: "text-emerald-700" },
-  TERMINADO: { label: "Terminados", dot: "bg-slate-500", chipTone: "text-slate-700" },
-  TODOS: { label: "Todos", dot: "bg-amber-500", chipTone: "text-amber-700" },
+type StatusStyle = {
+  label: string;
+  dot: string;
+  chipTone: string;
+  chipBg: string;
+  accentBorder: string;
+};
+
+const statusStyles: Record<StatusKey, StatusStyle> = {
+  ACTIVO: {
+    label: "Activos",
+    dot: "bg-[color:var(--status-active-dot)]",
+    chipTone: "text-[color:var(--status-active-text)]",
+    chipBg: "bg-[color:var(--status-active-pill)]",
+    accentBorder: "color-mix(in srgb, var(--status-active-dot) 48%, var(--border))",
+  },
+  TERMINADO: {
+    label: "Terminados",
+    dot: "bg-[color:var(--status-terminated-dot)]",
+    chipTone: "text-[color:var(--status-terminated-text)]",
+    chipBg: "bg-[color:var(--status-terminated-pill)]",
+    accentBorder: "color-mix(in srgb, var(--status-terminated-dot) 48%, var(--border))",
+  },
+  TODOS: {
+    label: "Todos",
+    dot: "bg-amber-500",
+    chipTone: "text-amber-700",
+    chipBg: "bg-amber-100",
+    accentBorder: "color-mix(in srgb, var(--border) 70%, var(--surface))",
+  },
 };
 
 type CaseDashboardProps = {
@@ -57,7 +83,11 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
   const [error, setError] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    if (tab === "TODOS") return cases;
+    if (tab === "TODOS") {
+      const activeCases = cases.filter((c) => normalizeStatusValue(c.status) === "ACTIVO");
+      const otherCases = cases.filter((c) => normalizeStatusValue(c.status) !== "ACTIVO");
+      return [...activeCases, ...otherCases];
+    }
     return cases.filter((c) => normalizeStatusValue(c.status) === tab);
   }, [cases, tab]);
 
@@ -154,15 +184,11 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
             const lastDocs = (c.documents ?? []).slice(0, 2);
             const normalizedStatus = normalizeStatusValue(c.status);
             const badgeStyle = statusStyles[normalizedStatus];
-            const accentBorder =
-              normalizedStatus === "TERMINADO"
-                ? "color-mix(in srgb, #10b981 28%, var(--border))"
-                : "color-mix(in srgb, var(--accent) 32%, var(--border))";
             return (
               <div
                 key={c.id}
                 className="theme-card flex flex-col gap-3 rounded-2xl p-5"
-                style={{ borderColor: accentBorder }}
+                style={{ borderColor: badgeStyle.accentBorder }}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex flex-col gap-1">
@@ -170,13 +196,17 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
                     <h3 className="text-lg font-semibold theme-title">{c.name}</h3>
                     <p className="text-sm theme-muted line-clamp-2">{c.summary ?? "Sin descripción"}</p>
                   </div>
-                  <span className={`theme-chip rounded-full px-3 py-1 text-[11px] font-semibold ${badgeStyle.chipTone}`}>
+                  <span
+                    className={`rounded-full px-3 py-1 text-[11px] font-semibold ${badgeStyle.chipTone} ${badgeStyle.chipBg}`}
+                  >
                     {badgeStyle.label}
                   </span>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 text-xs theme-muted">
-                  <span className="rounded-full bg-slate-900 px-2 py-1 text-[11px] font-semibold text-white">{docsCount} docs</span>
+                  <span className="theme-doc-chip rounded-full px-2 py-1 text-[11px] font-semibold text-[color:var(--muted-text)]">
+                    {docsCount} docs
+                  </span>
                   <span className="theme-chip rounded-full px-2 py-1">Última act. {formatDate(c.updatedAt)}</span>
                   {c.owner && <span className="theme-chip rounded-full px-2 py-1">Responsable {c.owner}</span>}
                 </div>
@@ -216,7 +246,7 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
           })}
         </div>
 
-        <div className="theme-card flex flex-col gap-3 rounded-2xl px-5 py-6">
+        <div className="newcase-card flex flex-col gap-3 rounded-2xl px-5 py-6">
           <p className="text-xs uppercase tracking-[0.08em] theme-muted">Nuevo caso</p>
           <form className="flex flex-col gap-3" onSubmit={handleCreate}>
             <div>
@@ -250,9 +280,6 @@ export function CaseDashboard({ initialCases }: CaseDashboardProps) {
             </button>
             {error && <p className="text-xs text-amber-600">{error}</p>}
           </form>
-          <div className="theme-card-muted rounded-xl p-3 text-xs theme-muted">
-            Mock: se crea un caso con id automático y se podrá subir documentos, correr el juez y generar el PDF final.
-          </div>
         </div>
       </div>
     </section>

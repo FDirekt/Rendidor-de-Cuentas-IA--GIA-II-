@@ -122,7 +122,7 @@ export function UploadClient({ initialCaseId }: UploadClientProps) {
 
   return (
     <main className="min-h-screen px-4 py-4 text-[color:var(--foreground)]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <Header
           title="Subir Pagos, Devengados y Documentación Adicional"
           subtitle={

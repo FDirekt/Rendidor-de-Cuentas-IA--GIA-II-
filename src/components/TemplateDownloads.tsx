@@ -39,7 +39,7 @@ function TemplateButton({ tipo, label, payload }: TemplateButtonProps) {
     <button
       onClick={handleClick}
       disabled={loading}
-      className="rounded-full bg-sky-700 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-800 disabled:opacity-60"
+      className="theme-cta rounded-full px-4 py-2 text-sm font-semibold text-white shadow hover:brightness-110 disabled:opacity-60 disabled:pointer-events-none"
     >
       {loading ? "Generando..." : label}
     </button>

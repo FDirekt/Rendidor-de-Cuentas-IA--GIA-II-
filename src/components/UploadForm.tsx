@@ -14,16 +14,16 @@ export function UploadForm({ form, setForm, submitting, caseLocked }: UploadForm
   return (
     <div className="theme-card rounded-2xl p-6">
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <span className="text-xs theme-muted">Sube el PDF y edita campos si hace falta.</span>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="rounded-full bg-gradient-to-r from-sky-700 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:from-sky-800 hover:to-blue-700 disabled:opacity-60"
-          >
-            {submitting ? "Procesando..." : "Subir y procesar"}
-          </button>
-        </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs theme-muted">Sube el PDF y edita campos si hace falta.</span>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="theme-cta rounded-full px-4 py-2 text-sm font-semibold text-white shadow hover:brightness-110 disabled:opacity-60"
+            >
+              {submitting ? "Procesando..." : "Subir y procesar"}
+            </button>
+          </div>
 
         <div>
           <label className="text-sm font-semibold theme-title">Caso</label>
@@ -68,7 +68,7 @@ export function UploadForm({ form, setForm, submitting, caseLocked }: UploadForm
         <div>
           <label className="text-sm font-semibold theme-title">Archivo PDF</label>
           <div
-            className="mt-1 flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-sky-200 bg-sky-50/50 px-4 py-6 text-sm theme-muted hover:border-sky-400"
+            className="mt-1 flex flex-col items-center justify-center rounded-xl px-4 py-6 text-sm theme-muted theme-dropzone"
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => {
               e.preventDefault();
@@ -86,7 +86,7 @@ export function UploadForm({ form, setForm, submitting, caseLocked }: UploadForm
               className="hidden"
               id="fileInput"
             />
-            <label htmlFor="fileInput" className="cursor-pointer font-semibold text-sky-700">
+            <label htmlFor="fileInput" className="cursor-pointer font-semibold text-[color:var(--accent-strong)]">
               Click o arrastra un PDF aquí
             </label>
             {form.file && (

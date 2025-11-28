@@ -95,13 +95,13 @@ export default function FinalizePage() {
             <button
               onClick={handleFinalize}
               disabled={loading}
-              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2 text-sm font-semibold text-white shadow hover:from-emerald-700 hover:to-teal-600 disabled:opacity-60"
+              className="theme-cta rounded-full px-4 py-2 text-sm font-semibold text-white shadow hover:brightness-110 disabled:opacity-60"
             >
               {loading ? "Generando..." : "Generar PDF final"}
             </button>
           </div>
 
-          {message && <p className="text-sm text-emerald-700">{message}</p>}
+          {message && <p className="text-sm text-[color:var(--accent)]">{message}</p>}
 
           <div className="theme-card-muted rounded-xl border p-4">
             <p className="text-sm font-semibold theme-title">Duplicados (hash en otros casos)</p>
