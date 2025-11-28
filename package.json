@@ -1,7 +1,10 @@
 {
-  "name": "frontend",
+  "name": "webapp",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +12,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^5.19.0",
     "next": "16.0.5",
+    "pdf-lib": "^1.17.1",
+    "playwright": "^1.57.0",
+    "prisma": "^5.19.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },

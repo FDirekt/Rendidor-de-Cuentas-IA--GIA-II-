@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Case {
+  id        String     @id @default(cuid())
+  name      String
+  status    String     @default("ACTIVO")
+  owner     String?
+  summary   String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  documents Document[]
+}
+
+model Document {
+  id                String       @id @default(uuid())
+  caseId            String
+  tipo              String
+  nombre            String
+  hash              String
+  uploadedAt        DateTime     @default(now())
+  ocrText           String
+  extraction        String
+  duplicateOfId     String?
+  duplicateOfCaseId String?
+  judgeStatus       String?
+  judgeReason       String?
+
+  case       Case       @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  duplicateOf Document? @relation("DuplicateDocument", fields: [duplicateOfId], references: [id])
+  duplicates  Document[] @relation("DuplicateDocument")
+
+  @@index([hash])
+}

@@ -1,65 +1,74 @@
 import Image from "next/image";
+import { CaseDashboard } from "@/components/CaseDashboard";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+function serializeCase(c: Awaited<ReturnType<typeof prisma.case.findFirst>>) {
+  if (!c) return c;
+  return {
+    ...c,
+    createdAt: c.createdAt.toISOString(),
+    updatedAt: c.updatedAt.toISOString(),
+    documents: c.documents?.map((d) => ({
+      ...d,
+      uploadedAt: d.uploadedAt.toISOString(),
+    })),
+  };
+}
+
+export default async function Home() {
+  const casesRaw = await prisma.case.findMany({
+    orderBy: { createdAt: "desc" },
+    include: { _count: { select: { documents: true } }, documents: { orderBy: { uploadedAt: "desc" }, take: 2 } },
+  });
+  const cases = casesRaw.map(serializeCase).map((c) =>
+    c ? { ...c, status: c.status === "EN_PROCESO" ? "ACTIVO" : c.status } : c
+  );
+  const activeCount = cases.filter((c) => c.status === "ACTIVO").length;
+  const finishedCount = cases.filter((c) => c.status === "TERMINADO").length;
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="min-h-screen px-6 py-10 text-[color:var(--foreground)]">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8">
+        <section className="theme-cta rounded-3xl p-8 shadow-lg ring-1 ring-[color:var(--border)]">
+          <div className="flex flex-wrap items-start justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20">
+                <Image src="/logo/logomid.png" alt="Logo Grupo 2" width={56} height={56} priority />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-xs uppercase tracking-[0.1em] text-slate-200">Rendición de Cuentas</p>
+                <h1 className="text-3xl font-semibold">Casos y documentos</h1>
+                <p className="text-sm text-slate-200">
+                  Mock operativo con usuario inventado. Seleccioná un caso, carga documentos y genera el acta final con el juez.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm shadow-inner ring-1 ring-white/10">
+              <p className="text-slate-200">Usuario</p>
+              <p className="text-lg font-semibold">Sofía Videla</p>
+              <p className="text-xs text-slate-300">Control posterior · demo</p>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-3 text-sm sm:grid-cols-3">
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">
+              <p className="text-slate-200">Casos activos</p>
+              <p className="text-2xl font-semibold">{activeCount}</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">
+              <p className="text-slate-200">Terminados</p>
+              <p className="text-2xl font-semibold">{finishedCount}</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">
+              <p className="text-slate-200">Total casos</p>
+              <p className="text-2xl font-semibold">{cases.length}</p>
+            </div>
+          </div>
+        </section>
+
+        <CaseDashboard initialCases={cases} />
+      </div>
+    </main>
   );
 }
