@@ -46,43 +46,49 @@ export default async function CasePage({ params }: PageProps) {
   })();
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 px-6 py-10 text-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900 dark:text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <header className="rounded-3xl bg-white/90 p-6 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900/80 dark:ring-slate-700">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div className="flex flex-col gap-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-sky-700">Caso {caseRecord.id}</p>
-              <h1 className="text-2xl font-bold text-slate-900">{caseRecord.name}</h1>
-              <p className="text-sm text-slate-600">{caseRecord.summary ?? "Caso sin descripción"}</p>
+    <main className="min-h-screen px-4 py-4 text-[color:var(--foreground)]">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+        <header className="theme-card rounded-3xl p-6">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div className="flex flex-1 min-w-[220px] flex-col gap-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] theme-muted">Caso {caseRecord.id}</p>
+              <h1 className="text-2xl font-bold theme-title">{caseRecord.name}</h1>
+              <p className="text-sm theme-muted">
+                {caseRecord.summary ?? "Caso sin descripción"}
+              </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 min-w-[240px] justify-center">
+              <div className="grid w-full max-w-lg grid-cols-3 gap-3">
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                  <p className="text-xs uppercase theme-muted">Documentos</p>
+                  <p className="text-2xl font-semibold theme-title">{documents.length}</p>
+                </div>
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                  <p className="text-xs uppercase theme-muted">Duplicados internos</p>
+                  <p className="text-2xl font-semibold theme-title">{duplicatesInCase}</p>
+                </div>
+                <div className="flex min-h-[90px] flex-col justify-between rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3">
+                  <p className="text-xs uppercase theme-muted">Duplicados otros casos</p>
+                  <p className="text-2xl font-semibold theme-title">{duplicateMatches.length}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-shrink-0 flex-col items-end gap-2">
               <Link
                 href="/"
-                className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 ring-1 ring-slate-200 hover:bg-slate-200"
+                className="rounded-full border border-[color:var(--border)] px-3 py-2 text-xs font-semibold theme-muted transition hover:border-[color:var(--accent)]"
               >
                 Volver a inicio
               </Link>
               <span
                 className={`rounded-full px-3 py-2 text-xs font-semibold ${
-                  normalizedStatus === "TERMINADO" ? "bg-emerald-100 text-emerald-800" : "bg-emerald-50 text-emerald-800"
+                  normalizedStatus === "TERMINADO"
+                    ? "bg-[color:var(--status-terminated-pill)] text-[color:var(--status-terminated-text)]"
+                    : "bg-[color:var(--status-active-pill)] text-[color:var(--status-active-text)]"
                 }`}
               >
                 {normalizedStatus}
               </span>
-            </div>
-          </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
-              <p className="text-xs uppercase text-slate-500">Documentos</p>
-              <p className="text-2xl font-semibold text-slate-900">{documents.length}</p>
-            </div>
-            <div className="rounded-2xl bg-amber-50 px-4 py-3 ring-1 ring-amber-100">
-              <p className="text-xs uppercase text-amber-700">Duplicados internos</p>
-              <p className="text-2xl font-semibold text-amber-900">{duplicatesInCase}</p>
-            </div>
-            <div className="rounded-2xl bg-sky-50 px-4 py-3 ring-1 ring-sky-100">
-              <p className="text-xs uppercase text-sky-700">Coincidencias en otros casos</p>
-              <p className="text-2xl font-semibold text-sky-900">{duplicateMatches.length}</p>
             </div>
           </div>
         </header>
