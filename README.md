@@ -92,12 +92,23 @@ Flujo actual:
 - Endpoints dedicados para orquestación: `POST /api/ocr` (OCR stub), `POST /api/llm/extract` (LLM extracción stub), `POST /api/llm/judge` (LLM juez stub). Útiles para n8n si se quieren nodos separados.
 - UI `/upload`: formulario de subida (tipo y caso) + descarga de plantillas de ejemplo. Home incluye accesos rápidos a subida por tipo.
 
-Próximos pasos (orden sugerido):
-1) Reemplazar stubs por integración real de OCR (Tesseract/Cloud Vision/Textract) y LLM de extracción (DeepSeek/Llama 3.1/Qwen) con outputs JSON.
-2) Incorporar wizard multi-paso con guardado por step en DB (tramite, devengados, pagos, docs, resumen).
-3) Generar PDF final (formulario + anexos) usando datos persistidos; permitir subir PDF firmado.
-4) Validaciones: refinar “juez” (reglas + consulta a DB real), y deduplicado por hash/embeddings.
-5) Integrar roles y autorizaciones mínimas (operador/director), y logging/auditoría.
+Diagnóstico del nivel de modularidad:
+- Servicios `ingest.ts` y `pdfService.ts` agrupan lógica de pipeline, pero aún hay dependencias acopladas a los handlers de rutas `/api/documents` y a los proveedores. Para compartir responsabilidades es útil ampliar la carpeta `src/services` e inyectar proveedores desde un único punto de configuración.
+- El frontend actual se compone de un solo formulario `/upload`; para el wizard se requerirá dividir en pasos reusables (clases, duees, devengados, pagos, resumen) y emplear hooks/contexto para mantener el estado mientras cada paso persiste en Prisma.
+
+Hoja de ruta inmediata (tickets):
+1. **Integrar proveedores reales**: habilitar `.env`, adaptadores y validación de JSON para OCR/LLM (Tesseract, OpenAI, etc.).
+2. **Construir wizard persistente**: armar pasos de trámite, guardar cada uno en la DB y mostrar estado en interfaz.
+3. **Generar formulario final y carga de firmado**: usar `pdfService.ts` para renderizar el formulario+anexos y permitir que el Director suba el PDF firmado y cambie el estado del trámite.
+4. **Refinar deduplicado y juez**: extender la búsqueda de coincidencias (hash/embeddings) y almacenar trazas de validación en una tabla nueva.
+5. **Roles y auditoría**: agregar rol Operador/Director con rutas protegidas y registros mínimos (`user`, `acción`, `timestamp`).
+6. **Refactor estructural**: separar servicios vs. proveedores, centralizar tipos y documentar contratos para que n8n o el backend puedan reutilizar los mismos esquemas.
+
+Plan corto (antes del 12/12):
+- Semanas 1–2: armar esquema DB + seeds; endpoints básicos; wizard UI con carga de PDFs y resumen.
+- Semana 2: stub de pipeline OCR/LLM (endpoints que devuelven extracción simulada) + verificación de duplicados mock.
+- Semana 2–3: generación de formulario PDF y carga de “firmado”; flujo de envío por Director; logging/auditoría mínima.
+- Demo: recorrido completo con datos de ejemplo y trazas de decisiones (qué detectó el LLM, qué se marcó como duplicado).
 
 Refactorizaciones para n8n y orden del proyecto:
 - Separar rutas por responsabilidad: `/api/documents` (ingesta), `/api/ocr` (si se quiere exponer OCR), `/api/llm` (extracción/validación) para que n8n pueda orquestar pasos en nodos individuales.
